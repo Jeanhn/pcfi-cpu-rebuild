@@ -47,8 +47,8 @@ def read_cora_cites(file_path, node_id_mapping):
 
 
 # 加载数据
-content_path = r"C:\Users\jean\Desktop\pcfi-cpu\cora\cora.content"
-cites_path = r"C:\Users\jean\Desktop\pcfi-cpu\cora\cora.cites"
+content_path = r"..\data\cora\cora.content"
+cites_path = r"..\data\cora\cora.cites"
 features, labels, node_id_mapping = read_cora_content(content_path)
 edge_index = read_cora_cites(cites_path, node_id_mapping)
 
