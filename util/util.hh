@@ -36,5 +36,26 @@ namespace util
     {
         return pow(base, time);
     }
+
+    std::vector<std::string> split(const std::string &line, char c)
+    {
+        std::vector<std::string> result;
+        auto it = line.begin();
+        while (it != line.end())
+        {
+            while (it != line.end() && *it == c)
+            {
+                it++;
+            }
+            auto end = it;
+            while (end != line.end() && *end != c)
+            {
+                end++;
+            }
+            result.push_back({it, end});
+            it = end;
+        }
+        return result;
+    }
 }
 #endif

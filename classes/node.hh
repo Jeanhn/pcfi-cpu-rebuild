@@ -15,9 +15,8 @@ namespace pcfi
 
     public:
         Node(std::string &i, std::vector<std::optional<float>> &f);
-        ~Node();
-        std::optional<float> getFeature(int featureIndex);
-        std::string getIndex();
+        std::optional<float> getFeature(int featureIndex) const;
+        std::string getIndex() const;
     };
 
 } // namespace pcfi

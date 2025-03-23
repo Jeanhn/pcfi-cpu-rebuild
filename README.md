@@ -7,3 +7,10 @@
 
 ### ./data
 各种数据集
+
+## build
+- 行数统计: 
+    - find . -name "*.cc" -o -name "*.hh" | xargs wc -l
+- 编译:
+    - cmake ./CMakeLists.txt
+    - make
