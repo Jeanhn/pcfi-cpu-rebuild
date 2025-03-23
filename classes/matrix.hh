@@ -9,6 +9,12 @@ namespace pcfi
     private:
         std::vector<std::vector<float>> data;
 
+        std::vector<float> getLine(int) const;
+        std::vector<float> getColomn(int) const;
+        int getLineSize() const;
+        int getColomnSize() const;
+        float multiple(const std::vector<float> &a, const std::vector<float> &b) const;
+
     public:
         Matrix(/* args */);
         ~Matrix();
