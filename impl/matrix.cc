@@ -52,9 +52,9 @@ namespace pcfi
 
         std::vector<std::vector<float>> result;
         result.resize(this->getLineSize());
-        result.resize(matrix.getColomnSize());
         for (int i = 0; i < this->getLineSize(); i++)
         {
+            result[i].resize(matrix.getColomnSize());
             auto line = this->getLine(i);
             for (int j = 0; j < matrix.getColomnSize(); j++)
             {
@@ -82,6 +82,28 @@ namespace pcfi
     std::vector<std::vector<float>> &Matrix::exportData()
     {
         return data;
+    }
+
+    static Matrix zeroMatrix(int line, int colomn)
+    {
+        std::vector<std::vector<float>> base;
+        base.resize(line);
+        for (int i = 0; i < line; i++)
+        {
+            base[i].resize(colomn);
+        }
+        return std::move(base);
+    }
+
+    static Matrix identifyMatrix(int line)
+    {
+        Matrix m = zeroMatrix(line, line);
+        auto &d = m.exportData();
+        for (int i = 0; i < line; i++)
+        {
+            d[i][i] = 1;
+        }
+        return m;
     }
 
 } // namespace pcfi

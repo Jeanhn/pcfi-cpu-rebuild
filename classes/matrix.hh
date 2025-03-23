@@ -16,13 +16,14 @@ namespace pcfi
         float multiple(const std::vector<float> &a, const std::vector<float> &b) const;
 
     public:
-        Matrix(/* args */);
-        ~Matrix();
         Matrix(std::vector<std::vector<float>>);
         Matrix multiple(const Matrix &matrix) const;
         void Reserve();
         std::vector<std::vector<float>> &exportData();
     };
+
+    static Matrix zeroMatrix(int line, int colomn);
+    static Matrix identifyMatrix(int line);
 
 } // namespace pcfi
 
