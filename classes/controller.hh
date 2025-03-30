@@ -12,7 +12,7 @@ namespace pcfi
     private:
         /* data */
         std::vector<Node *> nodes;
-        std::unordered_set<std::pair<std::string, std::string>> edges;
+        std::vector<std::pair<std::string, std::string>> edges;
         int featureSize;
         float alpha;
 
@@ -25,7 +25,7 @@ namespace pcfi
         std::vector<float> diffusion(const Matrix &, const Matrix &);
 
     public:
-        Controller(std::vector<Node *>, std::unordered_set<std::pair<std::string, std::string>>);
+        Controller(std::vector<Node *>, std::vector<std::pair<std::string, std::string>>);
 
         void iterate(int featureIndex);
     };

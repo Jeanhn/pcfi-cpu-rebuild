@@ -6,6 +6,10 @@
 
 namespace pcfi
 {
+    Controller::Controller(std::vector<Node *> nodeArray,
+                           std::vector<std::pair<std::string, std::string>> edgeArray)
+        : nodes(std::move(nodeArray)), edges(std::move(edgeArray)) {}
+
     std::pair<std::vector<Node *>, std::vector<Node *>> Controller::distinguish(int featureIndex)
     {
         std::vector<Node *> source, missing;
