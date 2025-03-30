@@ -16,6 +16,7 @@ namespace pcfi
         int featureSize;
         float alpha;
 
+    public:
         std::pair<std::vector<Node *>, std::vector<Node *>> distinguish(int featureIndex);
         std::unordered_map<std::string, int> calculateShortestDistance(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes);
         std::unordered_map<std::string, float> calculatePseudoConfidence(const std::unordered_map<std::string, int> &distance);

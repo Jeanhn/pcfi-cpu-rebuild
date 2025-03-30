@@ -9,6 +9,21 @@
 
 namespace util
 {
+    inline void debugOutput(std::vector<std::optional<float>> arg)
+    {
+        for (auto &t : arg)
+        {
+            if (!t.has_value())
+            {
+                std::cout << "x" << ' ';
+            }
+            else
+            {
+                std::cout << t.value() << ' ';
+            }
+        }
+        std::cout << std::endl;
+    }
 
     template <typename T>
     inline void debugOutput(std::vector<T> arg)

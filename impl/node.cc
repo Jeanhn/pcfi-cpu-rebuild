@@ -2,7 +2,7 @@
 
 namespace pcfi
 {
-    Node::Node(std::string &i, std::vector<std::optional<float>> &f) : index(std::move(i)), features(std::move(features))
+    Node::Node(std::string &i, std::vector<std::optional<float>> &f) : index(std::move(i)), features(std::move(f))
     {
     }
 
@@ -14,6 +14,11 @@ namespace pcfi
     std::string Node::getIndex() const
     {
         return index;
+    }
+
+    std::vector<std::optional<float>> &Node::exportFeatures()
+    {
+        return features;
     }
 
 } // namespace pcfi

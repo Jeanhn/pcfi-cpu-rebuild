@@ -20,8 +20,7 @@ void coraFix()
             }
             catch (std::exception e)
             {
-                util::debugOutput(i, nodeFeatures.size(), nodeFeatures[i], nodeFeatures);
-                return;
+                features.push_back(std::optional<float>());
             }
         }
         pcfi::Node *node = new pcfi::Node(nodeFeatures[0], features);
@@ -38,6 +37,8 @@ void coraFix()
     }
 
     pcfi::Controller controller(std::move(nodes), std::move(edges));
+
+    auto sourceAndMissingNodes = controller.distinguish(3);
 }
 
 int main()

@@ -8,7 +8,9 @@ namespace pcfi
 {
     Controller::Controller(std::vector<Node *> nodeArray,
                            std::vector<std::pair<std::string, std::string>> edgeArray)
-        : nodes(std::move(nodeArray)), edges(std::move(edgeArray)) {}
+        : nodes(std::move(nodeArray)), edges(std::move(edgeArray))
+    {
+    }
 
     std::pair<std::vector<Node *>, std::vector<Node *>> Controller::distinguish(int featureIndex)
     {
@@ -21,6 +23,7 @@ namespace pcfi
             }
             else
             {
+                util::debugOutput(n->getIndex());
                 missing.push_back(n);
             }
         }
