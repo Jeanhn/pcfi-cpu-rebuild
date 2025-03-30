@@ -20,6 +20,7 @@ namespace pcfi
         Matrix multiple(const Matrix &matrix) const;
         void Reserve();
         std::vector<std::vector<float>> &exportData();
+        void debug();
     };
 
     static std::vector<std::vector<float>> zeroMatrix(int line, int colomn);

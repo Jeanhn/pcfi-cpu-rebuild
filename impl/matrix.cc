@@ -1,5 +1,6 @@
 #include <matrix.hh>
 #include <stdexcept>
+#include <util.hh>
 
 namespace pcfi
 {
@@ -109,4 +110,12 @@ namespace pcfi
         return m;
     }
 
+    void Matrix::debug()
+    {
+        util::debugOutput("row size:", data.size(), "col size:", data.at(0).size());
+        for (auto &line : data)
+        {
+            util::debugOutput(line);
+        }
+    }
 } // namespace pcfi

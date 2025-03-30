@@ -38,7 +38,7 @@ void coraFix()
 
     pcfi::Controller controller(std::move(nodes), std::move(edges));
 
-    auto sourceAndMissingNodes = controller.distinguish(3);
+    controller.iterate(2);
 }
 
 int main()

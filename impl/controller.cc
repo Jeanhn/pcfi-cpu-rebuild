@@ -23,7 +23,6 @@ namespace pcfi
             }
             else
             {
-                util::debugOutput(n->getIndex());
                 missing.push_back(n);
             }
         }
@@ -131,7 +130,7 @@ namespace pcfi
         return result;
     }
 
-    Matrix Controller::sort(std::vector<std::vector<float>> &relativeMatrix, int sourceSize)
+    void Controller::sort(std::vector<std::vector<float>> &relativeMatrix, int sourceSize)
     {
         for (int i = 0; i < relativeMatrix.size(); i++)
         {
@@ -150,12 +149,11 @@ namespace pcfi
                 }
             }
         }
-        return relativeMatrix;
     }
 
-    std::vector<float> Controller::diffusion(const Matrix &diffusionMatrix, const Matrix &featureColomn)
+    void Controller::diffusion(const Matrix &diffusionMatrix, Matrix &featureColomn)
     {
-        return {};
+        featureColomn = std::move(diffusionMatrix.multiple(featureColomn));
     }
 
     Matrix Controller::getFeatureColomn(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes, int featureIndex)
@@ -182,13 +180,15 @@ namespace pcfi
 
         Matrix relativePC = calculateRelativePC(sourceAndMissingNodes, pseudoConfidenceMap);
 
-        Matrix sortedDiffusionMatirx = sort(relativePC.exportData(), sourceAndMissingNodes.first.size());
+        relativePC.debug();
+
+        sort(relativePC.exportData(), sourceAndMissingNodes.first.size());
 
         Matrix featureColomn = getFeatureColomn(sourceAndMissingNodes, featureIndex);
 
         for (int i = 0; i < 10; i++)
         {
-            diffusion(sortedDiffusionMatirx, featureColomn);
+            diffusion(relativePC, featureColomn);
         }
     }
 }
