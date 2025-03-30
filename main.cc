@@ -4,7 +4,7 @@
 #include <controller.hh>
 #include <algorithm>
 
-void coraFix()
+void coraFix(float alpha, int round)
 {
     auto nodeLines = util::readFileLines("/home/jean/pcfi-cpu-rebuild/test_data/cora_test/cora_test.content");
     std::vector<pcfi::Node *> nodes;
@@ -36,13 +36,17 @@ void coraFix()
         edges.push_back(edge);
     }
 
-    pcfi::Controller controller(std::move(nodes), std::move(edges));
+    pcfi::Controller controller(std::move(nodes), std::move(edges), alpha, round);
 
     controller.iterate(2);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    coraFix();
+    float alpha;
+    int round;
+    alpha = atof(argv[1]);
+    round = atoi(argv[2]);
+    coraFix(alpha, round);
     return 0;
 }

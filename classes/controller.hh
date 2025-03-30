@@ -13,8 +13,8 @@ namespace pcfi
         /* data */
         std::vector<Node *> nodes;
         std::vector<std::pair<std::string, std::string>> edges;
-        int featureSize;
-        float alpha;
+        float alpha = 0.8;
+        int round;
 
     public:
         std::pair<std::vector<Node *>, std::vector<Node *>> distinguish(int featureIndex);
@@ -26,7 +26,7 @@ namespace pcfi
         void diffusion(const Matrix &, Matrix &);
 
     public:
-        Controller(std::vector<Node *>, std::vector<std::pair<std::string, std::string>>);
+        Controller(std::vector<Node *>, std::vector<std::pair<std::string, std::string>>, float, int r);
 
         void iterate(int featureIndex);
     };

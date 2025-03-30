@@ -7,8 +7,10 @@
 namespace pcfi
 {
     Controller::Controller(std::vector<Node *> nodeArray,
-                           std::vector<std::pair<std::string, std::string>> edgeArray)
-        : nodes(std::move(nodeArray)), edges(std::move(edgeArray))
+                           std::vector<std::pair<std::string, std::string>> edgeArray,
+                           float a,
+                           int r)
+        : nodes(std::move(nodeArray)), edges(std::move(edgeArray)), alpha(a), round(r)
     {
     }
 
@@ -180,16 +182,16 @@ namespace pcfi
 
         Matrix relativePC = calculateRelativePC(sourceAndMissingNodes, pseudoConfidenceMap);
 
-        relativePC.debug();
-
         sort(relativePC.exportData(), sourceAndMissingNodes.first.size());
 
         Matrix featureColomn = getFeatureColomn(sourceAndMissingNodes, featureIndex);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < round; i++)
         {
             diffusion(relativePC, featureColomn);
         }
+
+        featureColomn.debug();
     }
 }
 // namespace pcfi
