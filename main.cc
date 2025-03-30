@@ -8,6 +8,8 @@ void coraFix()
 {
     auto nodeLines = util::readFileLines("./test_data/cora_test/cora_test.content");
     std::vector<pcfi::Node *> nodes;
+    util::debugOutput(nodeLines);
+    return;
     for (auto &line : nodeLines)
     {
         auto nodeFeatures = util::split(line, ' ');

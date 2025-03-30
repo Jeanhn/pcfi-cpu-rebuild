@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 项目名称
-project(YourProjectName)
+project(pcfi_cpu_rebuild)
 
 # 设置 C++ 标准为 C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -19,7 +19,7 @@ file(GLOB_RECURSE IMPL_SOURCES "${CMAKE_SOURCE_DIR}/impl/*.cc")
 file(GLOB_RECURSE UTIL_SOURCES "${CMAKE_SOURCE_DIR}/util/*.cc")
 
 # 添加可执行文件
-add_executable(your_executable
+add_executable(main
     ${IMPL_SOURCES}
     ${UTIL_SOURCES}
     ${CMAKE_SOURCE_DIR}/main.cc

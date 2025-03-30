@@ -10,6 +10,29 @@
 namespace util
 {
 
+    template <typename T>
+    inline void debugOutput(std::vector<T> arg)
+    {
+        for (auto &t : arg)
+        {
+            std::cout << t << ' ';
+        }
+        std::cout << std::endl;
+    }
+
+    template <typename T>
+    inline void debugOutput(T arg)
+    {
+        std::cout << arg << std::endl;
+    }
+
+    template <typename T, typename... Args>
+    inline void debugOutput(T arg, Args... args)
+    {
+        std::cout << arg << std::endl;
+        debugOutput(args);
+    }
+
     inline std::vector<std::string> readFileLines(const std::string &filename)
     {
         std::vector<std::string> lines;
