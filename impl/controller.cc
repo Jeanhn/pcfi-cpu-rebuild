@@ -147,6 +147,7 @@ namespace pcfi
                 }
             }
         }
+        return relativeMatrix;
     }
 
     std::vector<float> Controller::diffusion(const Matrix &diffusionMatrix, const Matrix &featureColomn)

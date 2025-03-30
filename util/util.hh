@@ -30,7 +30,7 @@ namespace util
     inline void debugOutput(T arg, Args... args)
     {
         std::cout << arg << std::endl;
-        debugOutput(args);
+        debugOutput(args...);
     }
 
     inline std::vector<std::string> readFileLines(const std::string &filename)

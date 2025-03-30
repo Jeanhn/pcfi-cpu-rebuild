@@ -6,23 +6,29 @@
 
 void coraFix()
 {
-    auto nodeLines = util::readFileLines("./test_data/cora_test/cora_test.content");
+    auto nodeLines = util::readFileLines("/home/jean/pcfi-cpu-rebuild/test_data/cora_test/cora_test.content");
     std::vector<pcfi::Node *> nodes;
-    util::debugOutput(nodeLines);
-    return;
     for (auto &line : nodeLines)
     {
         auto nodeFeatures = util::split(line, ' ');
         std::vector<std::optional<float>> features;
         for (int i = 1; i < nodeFeatures.size() - 1; i++)
         {
-            features.push_back({std::stof(nodeFeatures[i])});
+            try
+            {
+                features.push_back({std::stof(nodeFeatures[i])});
+            }
+            catch (std::exception e)
+            {
+                util::debugOutput(i, nodeFeatures.size(), nodeFeatures[i], nodeFeatures);
+                return;
+            }
         }
         pcfi::Node *node = new pcfi::Node(nodeFeatures[0], features);
         nodes.push_back(node);
     }
 
-    auto edgeLines = util::readFileLines("./test_data/cora_test/cora_test.cites");
+    auto edgeLines = util::readFileLines("/home/jean/pcfi-cpu-rebuild/test_data/cora_test/cora_test.cites");
     std::vector<std::pair<std::string, std::string>> edges;
     for (auto &line : edgeLines)
     {
