@@ -22,8 +22,8 @@ namespace pcfi
         std::vector<std::vector<float>> &exportData();
     };
 
-    static Matrix zeroMatrix(int line, int colomn);
-    static Matrix identifyMatrix(int line);
+    static std::vector<std::vector<float>> zeroMatrix(int line, int colomn);
+    static std::vector<std::vector<float>> identifyMatrix(int line);
 
 } // namespace pcfi
 

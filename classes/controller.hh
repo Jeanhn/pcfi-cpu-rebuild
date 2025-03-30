@@ -22,7 +22,7 @@ namespace pcfi
         std::unordered_map<std::string, float> calculatePseudoConfidence(const std::unordered_map<std::string, int> &distance);
         Matrix calculateRelativePC(const std::pair<std::vector<Node *>, std::vector<Node *>> &sourceAndMissingNodes, std::unordered_map<std::string, float> &confidenceMap);
         Matrix getFeatureColomn(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes, int featureIndex);
-        Matrix sort(const std::vector<std::vector<float>> &);
+        Matrix sort(std::vector<std::vector<float>> &, int sourceSize);
         std::vector<float> diffusion(const Matrix &, const Matrix &);
 
     public:

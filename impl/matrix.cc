@@ -3,6 +3,10 @@
 
 namespace pcfi
 {
+    Matrix::Matrix(std::vector<std::vector<float>> model) : data(std::move(model))
+    {
+    }
+
     int Matrix::getLineSize() const
     {
         return data.size();
@@ -84,7 +88,7 @@ namespace pcfi
         return data;
     }
 
-    static Matrix zeroMatrix(int line, int colomn)
+    static std::vector<std::vector<float>> zeroMatrix(int line, int colomn)
     {
         std::vector<std::vector<float>> base;
         base.resize(line);
@@ -92,16 +96,15 @@ namespace pcfi
         {
             base[i].resize(colomn);
         }
-        return std::move(base);
+        return base;
     }
 
-    static Matrix identifyMatrix(int line)
+    static std::vector<std::vector<float>> identifyMatrix(int line)
     {
-        Matrix m = zeroMatrix(line, line);
-        auto &d = m.exportData();
+        auto m = zeroMatrix(line, line);
         for (int i = 0; i < line; i++)
         {
-            d[i][i] = 1;
+            m[i][i] = 1;
         }
         return m;
     }
