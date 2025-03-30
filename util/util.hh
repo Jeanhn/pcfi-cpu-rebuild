@@ -10,7 +10,7 @@
 namespace util
 {
 
-    std::vector<std::string> readFileLines(const std::string &filename)
+    inline std::vector<std::string> readFileLines(const std::string &filename)
     {
         std::vector<std::string> lines;
         std::ifstream file(filename);
@@ -32,12 +32,12 @@ namespace util
         return lines;
     }
 
-    float confidence(float base, float time)
+    inline float confidence(float base, float time)
     {
         return pow(base, time);
     }
 
-    std::vector<std::string> split(const std::string &line, char c)
+    inline std::vector<std::string> split(const std::string &line, char c)
     {
         std::vector<std::string> result;
         auto it = line.begin();
