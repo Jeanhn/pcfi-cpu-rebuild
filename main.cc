@@ -23,7 +23,7 @@ void coraFix(float alpha, int round)
                 features.push_back(std::optional<float>());
             }
         }
-        pcfi::Node *node = new pcfi::Node(nodeFeatures[0], features);
+        pcfi::Node *node = new pcfi::Node(std::move(nodeFeatures[0]), std::move(features), std::move(nodeFeatures.back()));
         nodes.push_back(node);
     }
 
@@ -38,7 +38,21 @@ void coraFix(float alpha, int round)
 
     pcfi::Controller controller(std::move(nodes), std::move(edges), alpha, round);
 
-    controller.iterate(2);
+    std::vector<std::vector<float>> featuresAfterFix;
+    featuresAfterFix.reserve(controller.featureSize());
+    for (int i = 0; i < controller.featureSize(); i++)
+    {
+        auto f = controller.iterate(i);
+        featuresAfterFix.push_back(std::move(f));
+    }
+
+    pcfi::Matrix m(std::move(featuresAfterFix));
+    m.Reserve();
+    featuresAfterFix = std::move(m.exportData());
+
+    controller.fixNodes(std::move(featuresAfterFix));
+
+    controller.saveTo("/home/jean/pcfi-cpu-rebuild/test_data/cora_test/cora_test.content.fixed");
 }
 
 int main(int argc, char *argv[])

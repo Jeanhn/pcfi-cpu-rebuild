@@ -96,5 +96,34 @@ namespace util
         }
         return result;
     }
+
+    inline std::string join(const std::vector<std::string> &words, char c)
+    {
+        std::string buf;
+        for (int i = 0; i < words.size() - 1; i++)
+        {
+            buf.append(words[i]);
+            buf.push_back(c);
+        }
+        buf.append(words.back());
+        return buf;
+    }
+
+    inline void writeLinesToFile(const std::string &filename, const std::vector<std::string> &lines)
+    {
+        std::ofstream file;
+        // 以追加模式打开文件
+        file.open(filename, std::ios::app);
+
+        if (!file.is_open())
+        {
+            std::cerr << "无法打开文件: " << filename << std::endl;
+        }
+
+        for (auto &l : lines)
+        {
+            file << l << std::endl;
+        }
+    }
 }
 #endif

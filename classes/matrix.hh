@@ -9,7 +9,7 @@ namespace pcfi
     private:
         std::vector<std::vector<float>> data;
 
-        std::vector<float> getLine(int) const;
+        const std::vector<float> &getLine(int) const;
         std::vector<float> getColomn(int) const;
         int getLineSize() const;
         int getColomnSize() const;

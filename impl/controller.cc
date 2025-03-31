@@ -174,9 +174,20 @@ namespace pcfi
         return std::move(m);
     }
 
-    void Controller::iterate(int featureIndex)
+    std::vector<float> Controller::iterate(int featureIndex)
     {
         auto sourceAndMissingNodes = distinguish(featureIndex);
+        if (sourceAndMissingNodes.second.empty())
+        {
+            std::vector<float> result;
+            result.reserve(nodes.size());
+            for (int i = 0; i < nodes.size(); i++)
+            {
+                result.push_back(nodes[i]->getFeature(featureIndex).value());
+            }
+            return result;
+        }
+
         auto distanceMap = calculateShortestDistance(sourceAndMissingNodes);
         auto pseudoConfidenceMap = calculatePseudoConfidence(distanceMap);
 
@@ -191,7 +202,71 @@ namespace pcfi
             diffusion(relativePC, featureColomn);
         }
 
-        featureColomn.debug();
+        auto srcIter = featureColomn.exportData().begin();
+        auto missIter = std::next(srcIter, sourceAndMissingNodes.first.size());
+        std::vector<float> result;
+        result.reserve(featureColomn.exportData().size());
+
+        for (Node *n : nodes)
+        {
+            if (auto feature = n->getFeature(featureIndex); feature.has_value())
+            {
+                result.push_back((*srcIter)[0]);
+                srcIter++;
+            }
+            else
+            {
+                result.push_back((*missIter)[0]);
+                missIter++;
+            }
+        }
+        return result;
+    }
+
+    int Controller::featureSize() const
+    {
+        return nodes.at(0)->exportFeatures().size();
+    }
+
+    void Controller::fixNodes(std::vector<std::vector<float>> features)
+    {
+        if (features.size() != nodes.size())
+        {
+            throw std::runtime_error("fix node matrix mismatch");
+        }
+        for (int i = 0; i < features.size(); i++)
+        {
+            if (nodes[i]->exportFeatures().size() != features[i].size())
+            {
+                throw std::runtime_error("fix node line mismatch");
+            }
+            for (int j = 0; j < nodes[i]->exportFeatures().size(); j++)
+            {
+                nodes[i]->exportFeatures().at(j) = std::optional<float>(features[i][j]);
+            }
+        }
+    }
+
+    void Controller::saveTo(const std::string &path)
+    {
+        std::vector<std::string> lines;
+        for (auto n : nodes)
+        {
+            std::string index = n->getIndex(),
+                        kind = n->getKind();
+            std::vector<std::string> line;
+            line.reserve(n->exportFeatures().size() + 3);
+            line.push_back(index);
+            for (std::optional<float> v : n->exportFeatures())
+            {
+                line.push_back(std::to_string(v.value()));
+            }
+            line.push_back(kind);
+
+            std::string joinedLine = util::join(line, ' ');
+            lines.push_back(std::move(joinedLine));
+        }
+        util::writeLinesToFile(path, lines);
     }
 }
 // namespace pcfi

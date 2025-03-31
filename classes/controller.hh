@@ -28,7 +28,13 @@ namespace pcfi
     public:
         Controller(std::vector<Node *>, std::vector<std::pair<std::string, std::string>>, float, int r);
 
-        void iterate(int featureIndex);
+        std::vector<float> iterate(int featureIndex);
+
+        int featureSize() const;
+
+        void fixNodes(std::vector<std::vector<float>> features);
+
+        void saveTo(const std::string &);
     };
 
 } // namespace pcfi

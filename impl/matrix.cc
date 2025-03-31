@@ -18,7 +18,7 @@ namespace pcfi
         return data.at(0).size();
     }
 
-    std::vector<float> Matrix::getLine(int index) const
+    const std::vector<float> &Matrix::getLine(int index) const
     {
         return data[index];
     }
@@ -26,9 +26,10 @@ namespace pcfi
     std::vector<float> Matrix::getColomn(int index) const
     {
         std::vector<float> colomn;
+        colomn.resize(data.size());
         for (int i = 0; i < data.size(); i++)
         {
-            colomn.push_back(data[i][index]);
+            colomn[i] = data[i][index];
         }
         return colomn;
     }

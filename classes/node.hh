@@ -12,12 +12,14 @@ namespace pcfi
         /* data */
         std::string index;
         std::vector<std::optional<float>> features;
+        std::string kind;
 
     public:
-        Node(std::string &i, std::vector<std::optional<float>> &f);
+        Node(std::string i, std::vector<std::optional<float>> f, std::string k);
         std::optional<float> getFeature(int featureIndex) const;
         std::vector<std::optional<float>> &exportFeatures();
         std::string getIndex() const;
+        std::string getKind() const;
     };
 
 } // namespace pcfi
