@@ -130,13 +130,11 @@ void startCora()
         coraRandomGenerate(nodeSource, edgeSource, missingTarget);
         return;
     }
-    float alpha;
-    int round;
     coraFix(alpha, round, nodeSource, edgeSource, fixTarget);
 }
 
 int main()
 {
-
+    startCora();
     return 0;
 }
