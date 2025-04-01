@@ -91,7 +91,10 @@ namespace util
             {
                 end++;
             }
-            result.push_back({it, end});
+            if (it != end)
+            {
+                result.push_back({it, end});
+            }
             it = end;
         }
         return result;
@@ -113,7 +116,7 @@ namespace util
     {
         std::ofstream file;
         // 以追加模式打开文件
-        file.open(filename, std::ios::app);
+        file.open(filename, std::ios::out);
 
         if (!file.is_open())
         {

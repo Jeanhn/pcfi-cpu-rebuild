@@ -4,9 +4,9 @@
 #include <controller.hh>
 #include <algorithm>
 
-void coraFix(float alpha, int round)
+pcfi::Controller readCora(float alpha, int round, const std::string &nodeSource, const std::string &edgeSource)
 {
-    auto nodeLines = util::readFileLines("/home/jean/pcfi-cpu-rebuild/test_data/cora_test/cora_test.content");
+    auto nodeLines = util::readFileLines(nodeSource);
     std::vector<pcfi::Node *> nodes;
     for (auto &line : nodeLines)
     {
@@ -27,7 +27,7 @@ void coraFix(float alpha, int round)
         nodes.push_back(node);
     }
 
-    auto edgeLines = util::readFileLines("/home/jean/pcfi-cpu-rebuild/test_data/cora_test/cora_test.cites");
+    auto edgeLines = util::readFileLines(edgeSource);
     std::vector<std::pair<std::string, std::string>> edges;
     for (auto &line : edgeLines)
     {
@@ -37,6 +37,12 @@ void coraFix(float alpha, int round)
     }
 
     pcfi::Controller controller(std::move(nodes), std::move(edges), alpha, round);
+    return controller;
+}
+
+void coraFix(float alpha, int round, const std::string &nodeSource, const std::string &edgeSource, const std::string &fixTarget)
+{
+    auto controller = readCora(alpha, round, nodeSource, edgeSource);
 
     std::vector<std::vector<float>> featuresAfterFix;
     featuresAfterFix.reserve(controller.featureSize());
@@ -52,15 +58,85 @@ void coraFix(float alpha, int round)
 
     controller.fixNodes(std::move(featuresAfterFix));
 
-    controller.saveTo("/home/jean/pcfi-cpu-rebuild/test_data/cora_test/cora_test.content.fixed");
+    controller.saveTo(fixTarget, false);
 }
 
-int main(int argc, char *argv[])
+void coraRandomGenerate(const std::string &nodeSource, const std::string &edgeSource, const std::string &missingTaget)
 {
+    auto controller = readCora(0, 0, nodeSource, edgeSource);
+    controller.generateRandomMissingFeatures(5);
+    controller.saveTo(missingTaget, true);
+}
+
+void startCora()
+{
+    int mode;
     float alpha;
     int round;
-    alpha = atof(argv[1]);
-    round = atoi(argv[2]);
-    coraFix(alpha, round);
+    std::string nodeSource, edgeSource, fixTarget, missingTarget;
+
+    auto configLines = util::readFileLines("/home/jean/pcfi-cpu-rebuild/config.txt");
+    for (auto l : configLines)
+    {
+        auto kv = util::split(l, ':');
+        if (kv[0] == "mode")
+        {
+            mode = std::stoi(kv[1]);
+            continue;
+        }
+
+        if (mode == 0)
+        {
+            if (kv[0] == "alpha")
+            {
+                alpha = std::stof(kv[1]);
+            }
+            else if (kv[0] == "round")
+            {
+                round = std::stoi(kv[1]);
+            }
+            else if (kv[0] == "nodeSource")
+            {
+                nodeSource = kv[1];
+            }
+            else if (kv[0] == "edgeSource")
+            {
+                edgeSource = kv[1];
+            }
+            else if (kv[0] == "fixTarget")
+            {
+                fixTarget = kv[1];
+            }
+        }
+        else
+        {
+            if (kv[0] == "nodeSource")
+            {
+                nodeSource = kv[1];
+            }
+            else if (kv[0] == "edgeSource")
+            {
+                edgeSource = kv[1];
+            }
+            else if (kv[0] == "missingTarget")
+            {
+                missingTarget = kv[1];
+            }
+        }
+    }
+
+    if (mode == 1)
+    {
+        coraRandomGenerate(nodeSource, edgeSource, missingTarget);
+        return;
+    }
+    float alpha;
+    int round;
+    coraFix(alpha, round, nodeSource, edgeSource, fixTarget);
+}
+
+int main()
+{
+
     return 0;
 }

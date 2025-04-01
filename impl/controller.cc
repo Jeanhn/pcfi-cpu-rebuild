@@ -247,7 +247,7 @@ namespace pcfi
         }
     }
 
-    void Controller::saveTo(const std::string &path)
+    void Controller::saveTo(const std::string &path, bool generatingRandomMissing)
     {
         std::vector<std::string> lines;
         for (auto n : nodes)
@@ -259,6 +259,11 @@ namespace pcfi
             line.push_back(index);
             for (std::optional<float> v : n->exportFeatures())
             {
+                if (generatingRandomMissing && !v.has_value())
+                {
+                    line.push_back("x");
+                    continue;
+                }
                 line.push_back(std::to_string(v.value()));
             }
             line.push_back(kind);
@@ -268,5 +273,31 @@ namespace pcfi
         }
         util::writeLinesToFile(path, lines);
     }
+
+    void Controller::generateRandomMissingFeatures(int num)
+    {
+        if (num >= nodes.size())
+        {
+            throw std::runtime_error("too large missing");
+        }
+
+        for (int i = 0; i < featureSize(); i++)
+        {
+            int k = num;
+            for (int j = i; j < nodes.size() + i; j++)
+            {
+                int t = j % nodes.size();
+                nodes.at(t)->resetFeature(i);
+                util::debugOutput(t);
+                k--;
+                if (k == 0)
+                {
+                    break;
+                }
+            }
+            std::cout << std::endl;
+        }
+    }
+
 }
 // namespace pcfi

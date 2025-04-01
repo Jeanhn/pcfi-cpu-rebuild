@@ -34,7 +34,9 @@ namespace pcfi
 
         void fixNodes(std::vector<std::vector<float>> features);
 
-        void saveTo(const std::string &);
+        void saveTo(const std::string &, bool = false);
+
+        void generateRandomMissingFeatures(int);
     };
 
 } // namespace pcfi

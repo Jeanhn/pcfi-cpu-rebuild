@@ -20,6 +20,7 @@ namespace pcfi
         std::vector<std::optional<float>> &exportFeatures();
         std::string getIndex() const;
         std::string getKind() const;
+        void resetFeature(int);
     };
 
 } // namespace pcfi

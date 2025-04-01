@@ -26,4 +26,8 @@ namespace pcfi
         return features;
     }
 
+    void Node::resetFeature(int i)
+    {
+        features.at(i).reset();
+    }
 } // namespace pcfi
