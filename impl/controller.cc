@@ -100,7 +100,7 @@ namespace pcfi
         return result;
     }
 
-    Matrix Controller::calculateRelativePC(const std::pair<std::vector<Node *>, std::vector<Node *>> &sourceAndMissingNodes, std::unordered_map<std::string, float> &confidenceMap)
+    Square Controller::calculateRelativePC(const std::pair<std::vector<Node *>, std::vector<Node *>> &sourceAndMissingNodes, std::unordered_map<std::string, float> &confidenceMap)
     {
         std::vector<Node *> sortedNodes;
         std::copy(sourceAndMissingNodes.first.begin(), sourceAndMissingNodes.first.end(), std::back_inserter(sortedNodes));
@@ -128,50 +128,54 @@ namespace pcfi
             }
         }
 
-        Matrix result(std::move(relativeMatrix));
+        Square result(relativeMatrix);
         return result;
     }
 
-    void Controller::sort(std::vector<std::vector<float>> &relativeMatrix, int sourceSize)
+    void Controller::sort(Square &relativeMatrix, int sourceSize)
     {
-        for (int i = 0; i < relativeMatrix.size(); i++)
+        for (int i = 0; i < relativeMatrix.shape().first; i++)
         {
-            for (int j = 0; j < relativeMatrix[i].size(); j++)
+            for (int j = 0; j < relativeMatrix.shape().second; j++)
             {
                 if (i < sourceSize)
                 {
                     if (i == j)
                     {
-                        relativeMatrix[i][j] = 1;
+                        relativeMatrix.set(i, j, 1);
                     }
                     else
                     {
-                        relativeMatrix[i][j] = 0;
+                        relativeMatrix.set(i, j, 0);
                     }
                 }
             }
         }
     }
 
-    void Controller::diffusion(const Matrix &diffusionMatrix, Matrix &featureColomn)
+    void Controller::diffusion(const Square &diffusionMatrix, Square &featureColomn)
     {
-        featureColomn = std::move(diffusionMatrix.multiple(featureColomn));
+        static Square result(featureColomn.shape().first, featureColomn.shape().second);
+        diffusionMatrix.multiple(featureColomn, result);
+        std::swap(featureColomn, result);
     }
 
-    Matrix Controller::getFeatureColomn(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes, int featureIndex)
+    Square Controller::getFeatureColomn(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes, int featureIndex)
     {
         std::vector<std::vector<float>> m;
         for (int i = 0; i < sourceAndMissingNodes.first.size(); i++)
         {
-            std::vector<float> line = {sourceAndMissingNodes.first.at(i)->getFeature(featureIndex).value()};
-            m.push_back(line);
+            sourceAndMissingNodes.first.at(i)->getFeature(featureIndex).value();
+            float e = sourceAndMissingNodes.first.at(i)->getFeature(featureIndex).value();
+            m.push_back({e});
         }
+
         for (int i = 0; i < sourceAndMissingNodes.second.size(); i++)
         {
-            std::vector<float> line = {0};
-            m.push_back(line);
+            m.push_back({0});
         }
-        return std::move(m);
+
+        return m;
     }
 
     std::vector<float> Controller::iterate(int featureIndex)
@@ -191,33 +195,34 @@ namespace pcfi
         auto distanceMap = calculateShortestDistance(sourceAndMissingNodes);
         auto pseudoConfidenceMap = calculatePseudoConfidence(distanceMap);
 
-        Matrix relativePC = calculateRelativePC(sourceAndMissingNodes, pseudoConfidenceMap);
+        Square relativePC = calculateRelativePC(sourceAndMissingNodes, pseudoConfidenceMap);
 
-        sort(relativePC.exportData(), sourceAndMissingNodes.first.size());
+        sort(relativePC, sourceAndMissingNodes.first.size());
 
-        Matrix featureColomn = getFeatureColomn(sourceAndMissingNodes, featureIndex);
+        Square featureColomn = getFeatureColomn(sourceAndMissingNodes, featureIndex);
 
         for (int i = 0; i < round; i++)
         {
             diffusion(relativePC, featureColomn);
         }
 
-        auto srcIter = featureColomn.exportData().begin();
-        auto missIter = std::next(srcIter, sourceAndMissingNodes.first.size());
         std::vector<float> result;
-        result.reserve(featureColomn.exportData().size());
+        result.reserve(featureColomn.shape().first);
+
+        int srcIndex = 0;
+        int missIndex = sourceAndMissingNodes.first.size();
 
         for (Node *n : nodes)
         {
             if (auto feature = n->getFeature(featureIndex); feature.has_value())
             {
-                result.push_back((*srcIter)[0]);
-                srcIter++;
+                result.push_back(featureColomn.at(srcIndex, 0));
+                srcIndex++;
             }
             else
             {
-                result.push_back((*missIter)[0]);
-                missIter++;
+                result.push_back(featureColomn.at(missIndex, 0));
+                missIndex++;
             }
         }
         return result;

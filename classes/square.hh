@@ -1,6 +1,7 @@
 #ifndef __SQUAREHH__
 #define __SQUAREHH__
 #include <memory>
+#include <vector>
 
 namespace pcfi
 {
@@ -12,10 +13,12 @@ namespace pcfi
 
     public:
         Square(int row, int col);
-        float &at(int r, int c);
-        const float &atConst(int r, int c) const;
-        void multiple(const Square &, Square &);
+        Square(const std::vector<std::vector<float>> &);
+        float at(int r, int c) const;
+        void set(int, int, float);
+        void multiple(const Square &, Square &) const;
         std::pair<int, int> shape() const;
+        void debug() const;
     };
 
 } // namespace pcfi

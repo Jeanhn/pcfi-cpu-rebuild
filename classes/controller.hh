@@ -4,6 +4,7 @@
 #include <matrix.hh>
 #include <unordered_map>
 #include <unordered_set>
+#include <square.hh>
 
 namespace pcfi
 {
@@ -20,10 +21,10 @@ namespace pcfi
         std::pair<std::vector<Node *>, std::vector<Node *>> distinguish(int featureIndex);
         std::unordered_map<std::string, int> calculateShortestDistance(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes);
         std::unordered_map<std::string, float> calculatePseudoConfidence(const std::unordered_map<std::string, int> &distance);
-        Matrix calculateRelativePC(const std::pair<std::vector<Node *>, std::vector<Node *>> &sourceAndMissingNodes, std::unordered_map<std::string, float> &confidenceMap);
-        Matrix getFeatureColomn(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes, int featureIndex);
-        void sort(std::vector<std::vector<float>> &, int sourceSize);
-        void diffusion(const Matrix &, Matrix &);
+        Square calculateRelativePC(const std::pair<std::vector<Node *>, std::vector<Node *>> &sourceAndMissingNodes, std::unordered_map<std::string, float> &confidenceMap);
+        Square getFeatureColomn(std::pair<std::vector<Node *>, std::vector<Node *>> sourceAndMissingNodes, int featureIndex);
+        void sort(Square &, int sourceSize);
+        void diffusion(const Square &, Square &);
 
     public:
         Controller(std::vector<Node *>, std::vector<std::pair<std::string, std::string>>, float, int r);
