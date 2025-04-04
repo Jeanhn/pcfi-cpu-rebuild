@@ -100,6 +100,52 @@ namespace util
         return result;
     }
 
+    inline std::vector<std::string> split(const std::string &line)
+    {
+        auto is_legal_char = [](char c)
+        {
+            if (c >= 'a' && c <= 'z')
+            {
+                return true;
+            }
+            if (c >= 'A' && c <= 'N')
+            {
+                return true;
+            }
+            if (c >= '0' && c <= '9')
+            {
+                return true;
+            }
+            if (c == '-' ||
+                c == '_')
+            {
+                return true;
+            }
+            return false;
+        };
+
+        std::vector<std::string> result;
+        auto it = line.begin();
+        while (it != line.end())
+        {
+            while (it != line.end() && !is_legal_char(*it))
+            {
+                it++;
+            }
+            auto end = it;
+            while (end != line.end() && is_legal_char(*end))
+            {
+                end++;
+            }
+            if (it != end)
+            {
+                result.push_back({it, end});
+            }
+            it = end;
+        }
+        return result;
+    }
+
     inline std::string join(const std::vector<std::string> &words, char c)
     {
         std::string buf;

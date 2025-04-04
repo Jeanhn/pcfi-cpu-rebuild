@@ -1,7 +1,7 @@
-mode:
-alpha:
-round:
-nodeSource:
-edgeSource:
-fixTarget:
-missingTarget:
+mode:1
+alpha:0.8
+round:2
+nodeSource:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content
+edgeSource:/home/jean/pcfi-cpu-rebuild/data/cora/cora.cites
+fixTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.fix
+missingTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss

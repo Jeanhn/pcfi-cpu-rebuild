@@ -10,7 +10,7 @@ pcfi::Controller readCora(float alpha, int round, const std::string &nodeSource,
     std::vector<pcfi::Node *> nodes;
     for (auto &line : nodeLines)
     {
-        auto nodeFeatures = util::split(line, ' ');
+        auto nodeFeatures = util::split(line);
         std::vector<std::optional<float>> features;
         for (int i = 1; i < nodeFeatures.size() - 1; i++)
         {
@@ -31,8 +31,8 @@ pcfi::Controller readCora(float alpha, int round, const std::string &nodeSource,
     std::vector<std::pair<std::string, std::string>> edges;
     for (auto &line : edgeLines)
     {
-        auto points = util::split(line, ' ');
-        std::pair<std::string, std::string> edge{points[0], points[1]};
+        auto points = util::split(line);
+        std::pair<std::string, std::string> edge{points.at(0), points.at(1)};
         edges.push_back(edge);
     }
 
@@ -64,7 +64,7 @@ void coraFix(float alpha, int round, const std::string &nodeSource, const std::s
 void coraRandomGenerate(const std::string &nodeSource, const std::string &edgeSource, const std::string &missingTaget)
 {
     auto controller = readCora(0, 0, nodeSource, edgeSource);
-    controller.generateRandomMissingFeatures(5);
+    controller.generateRandomMissingFeatures(1000);
     controller.saveTo(missingTaget, true);
 }
 

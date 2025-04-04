@@ -288,7 +288,6 @@ namespace pcfi
             {
                 int t = j % nodes.size();
                 nodes.at(t)->resetFeature(i);
-                util::debugOutput(t);
                 k--;
                 if (k == 0)
                 {
