@@ -48,6 +48,7 @@ void coraFix(float alpha, int round, const std::string &nodeSource, const std::s
 
     std::vector<std::vector<float>> featuresAfterFix;
     featuresAfterFix.reserve(controller.featureSize());
+    std::cout << "total feature size:" << controller.featureSize() << std::endl;
     for (int i = 0; i < controller.featureSize(); i++)
     {
         std::cout << "fixing feature:" << i << std::endl;

@@ -65,7 +65,7 @@ namespace util
         }
         else
         {
-            throw std::runtime_error("文件无法打开");
+            throw std::runtime_error("文件无法打开:" + filename);
         }
 
         return lines;
@@ -166,7 +166,7 @@ namespace util
 
         if (!file.is_open())
         {
-            std::cerr << "无法打开文件: " << filename << std::endl;
+            throw std::runtime_error("open failed:" + filename);
         }
 
         for (auto &l : lines)
