@@ -85,7 +85,7 @@ void startCora()
     std::string nodeSource, edgeSource, fixTarget, missingTarget;
     int missCount;
 
-    auto configLines = util::readFileLines("/home/jean/pcfi-cpu-rebuild/config.txt");
+    auto configLines = util::readFileLines("/home/ubuntu/mycode/pcfi-cpu-rebuild/config.txt");
     for (auto l : configLines)
     {
         auto kv = util::split(l, ':');
