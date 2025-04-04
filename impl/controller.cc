@@ -259,9 +259,20 @@ namespace pcfi
             line.push_back(index);
             for (std::optional<float> v : n->exportFeatures())
             {
-                if (generatingRandomMissing && !v.has_value())
+                if (generatingRandomMissing)
                 {
-                    line.push_back("x");
+                    if (!v.has_value())
+                    {
+                        line.push_back("x");
+                    }
+                    else if (v.value() > (float)0.0)
+                    {
+                        line.push_back("1");
+                    }
+                    else
+                    {
+                        line.push_back("0");
+                    }
                     continue;
                 }
                 line.push_back(std::to_string(v.value()));
@@ -294,7 +305,6 @@ namespace pcfi
                     break;
                 }
             }
-            std::cout << std::endl;
         }
     }
 

@@ -108,7 +108,7 @@ namespace util
             {
                 return true;
             }
-            if (c >= 'A' && c <= 'N')
+            if (c >= 'A' && c <= 'Z')
             {
                 return true;
             }
