@@ -48,6 +48,10 @@ void coraFix(float alpha, int round, const std::string &nodeSource, const std::s
     featuresAfterFix.reserve(controller.featureSize());
     for (int i = 0; i < controller.featureSize(); i++)
     {
+        if (i % 100 == 0)
+        {
+            std::cout << "fixing feature:" << i << std::endl;
+        }
         auto f = controller.iterate(i);
         featuresAfterFix.push_back(std::move(f));
     }
@@ -135,6 +139,9 @@ void startCora()
         coraRandomGenerate(nodeSource, edgeSource, missingTarget, missCount);
         return;
     }
+
+    util::debugOutput(alpha, round, nodeSource, edgeSource, fixTarget);
+
     coraFix(alpha, round, nodeSource, edgeSource, fixTarget);
 }
 

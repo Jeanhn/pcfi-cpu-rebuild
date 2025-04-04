@@ -1,8 +1,8 @@
-mode:1
+mode:0
 alpha:0.8
-round:2
-nodeSource:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content
+round:1
+nodeSource:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent
 edgeSource:/home/jean/pcfi-cpu-rebuild/data/cora/cora.cites
-fixTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.fix
-missingTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss
-missCount:1436
+fixTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent.fix
+missingTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent
+missCount:270
