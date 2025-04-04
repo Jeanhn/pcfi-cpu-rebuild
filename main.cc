@@ -3,6 +3,8 @@
 #include <util.hh>
 #include <controller.hh>
 #include <algorithm>
+#include <sys/time.h>
+#include <unistd.h>
 
 pcfi::Controller readCora(float alpha, int round, const std::string &nodeSource, const std::string &edgeSource)
 {
@@ -48,12 +50,14 @@ void coraFix(float alpha, int round, const std::string &nodeSource, const std::s
     featuresAfterFix.reserve(controller.featureSize());
     for (int i = 0; i < controller.featureSize(); i++)
     {
-        if (i % 100 == 0)
-        {
-            std::cout << "fixing feature:" << i << std::endl;
-        }
+        std::cout << "fixing feature:" << i << std::endl;
+        struct timeval start, end;
+        gettimeofday(&start, nullptr);
         auto f = controller.iterate(i);
+        gettimeofday(&end, nullptr);
         featuresAfterFix.push_back(std::move(f));
+        double elapsed = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1000000.0;
+        std::cout << "cost: " << static_cast<int>(elapsed * 10) / 10.0 << " secs" << std::endl;
     }
 
     pcfi::Matrix m(std::move(featuresAfterFix));
