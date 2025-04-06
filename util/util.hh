@@ -174,5 +174,14 @@ namespace util
             file << l << std::endl;
         }
     }
+
+    inline float safeDevide(float a, float b)
+    {
+        if (b * 100 < a)
+        {
+            return 100;
+        }
+        return a / b;
+    }
 }
 #endif

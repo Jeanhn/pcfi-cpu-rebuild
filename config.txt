@@ -1,8 +1,8 @@
 mode:0
 alpha:0.8
-round:1
+round:100
 nodeSource:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent
 edgeSource:/home/jean/pcfi-cpu-rebuild/data/cora/cora.cites
-fixTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent.fix
+fixTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent.fix.one_colomn.round100
 missingTarget:/home/jean/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent
 missCount:5

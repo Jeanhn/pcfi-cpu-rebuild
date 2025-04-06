@@ -80,7 +80,7 @@ namespace pcfi
             std::string index = missingNode->getIndex();
             if (shortestDistances.find(index) == shortestDistances.end())
             {
-                shortestDistances[index] = INT16_MAX;
+                shortestDistances[index] = INT8_MAX;
             }
         }
 
@@ -115,7 +115,7 @@ namespace pcfi
             for (int j = 0; j < nodes.size(); j++)
             {
                 float c2 = confidenceMap[sortedNodes[j]->getIndex()];
-                relativeMatrix[i][j] = c2 / c1;
+                relativeMatrix[i][j] = util::safeDevide(c2, c1);
             }
         }
 
