@@ -1,6 +1,6 @@
 mode:0
 alpha:0.8
-round:10
+round:80
 nodeSource:/home/ubuntu/mycode/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent
 edgeSource:/home/ubuntu/mycode/pcfi-cpu-rebuild/data/cora/cora.cites
 fixTarget:/home/ubuntu/mycode/pcfi-cpu-rebuild/data/cora/cora.content.miss_10_percent.fix
