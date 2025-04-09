@@ -117,7 +117,8 @@ namespace util
                 return true;
             }
             if (c == '-' ||
-                c == '_')
+                c == '_' ||
+                c == '.')
             {
                 return true;
             }
