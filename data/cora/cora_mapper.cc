@@ -80,10 +80,6 @@ void calculateCosine()
         }
         auto lineStr = util::join(line, ' ');
         lines.push_back(std::move(lineStr));
-        if (i == 0)
-        {
-            break;
-        }
     }
 
     util::writeLinesToFile("./cora.cos", lines);
