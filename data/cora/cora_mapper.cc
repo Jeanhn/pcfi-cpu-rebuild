@@ -85,9 +85,130 @@ void calculateCosine()
     util::writeLinesToFile("./cora.cos", lines);
 }
 
+void calculateAVG()
+{
+    auto featureLines = util::readFileLines("./cora.content");
+    std::unordered_map<std::string, std::vector<int>> allKinds;
+    int q = 0;
+    for (auto cite : featureLines)
+    {
+        auto art = util::split(cite);
+        if (allKinds.count(art.back()) == 0)
+        {
+            allKinds.insert({art.back(), std::vector<int>{q}});
+        }
+        else
+        {
+            allKinds[art.back()].push_back(q);
+        }
+        q++;
+    }
+
+    auto cosLines = util::readFileLines("./cora.cos");
+    std::vector<std::vector<float>> cosMap;
+    cosMap.resize(cosLines.size());
+    q = 0;
+    for (auto &cosLine : cosLines)
+    {
+        auto cosLineSplit = util::split(cosLine);
+        for (auto s : cosLineSplit)
+        {
+
+            cosMap[q].push_back(std::stof(s));
+        }
+        q++;
+    }
+
+    std::unordered_map<std::string, float> allKindsSum;
+    for (auto &p : allKinds)
+    {
+        float s = 0;
+        int count = 0;
+        for (int i = 0; i < p.second.size(); i++)
+        {
+            for (int j = i + 1; j < p.second.size(); j++)
+            {
+                try
+                {
+                    s += cosMap.at(p.second[i]).at(p.second[j] - p.second[i]);
+                    count++;
+                }
+                catch (std::exception e)
+                {
+                    util::debugOutput("cross", p.second[i], p.second[j], '\n');
+                    std::abort();
+                }
+            }
+        }
+        allKindsSum[p.first] = s / count;
+    }
+
+    float bigAll = 0;
+    int count = 0;
+    for (int i = 0; i < cosMap.size(); i++)
+    {
+        for (int j = 0; j < cosMap[i].size(); j++)
+        {
+            bigAll += cosMap[i][j];
+            count++;
+        }
+    }
+
+    float bvg = bigAll / count;
+    std::cout << "total  " << bigAll / count << '\n';
+
+    for (auto p : allKindsSum)
+    {
+        std::cout << p.first << "   " << p.second << "  " << (bvg > p.second) << '\n';
+    }
+}
+
+void genEdge()
+{
+    auto cosLines = util::readFileLines("./cora.cos");
+    std::vector<std::vector<float>> cosMap;
+    cosMap.resize(cosLines.size());
+    int q = 0;
+    for (auto &cosLine : cosLines)
+    {
+        auto cosLineSplit = util::split(cosLine);
+        for (auto s : cosLineSplit)
+        {
+
+            cosMap[q].push_back(std::stof(s));
+        }
+        q++;
+    }
+
+    auto featureLines = util::readFileLines("./cora.content");
+    std::vector<std::string> index;
+    for (auto cite : featureLines)
+    {
+        auto art = util::split(cite);
+        index.push_back(art.front());
+    }
+
+    std::vector<std::string> lines;
+    for (int i = 0; i < cosMap.size(); i++)
+    {
+        for (int j = 0; j < cosMap[i].size(); j++)
+        {
+            if (cosMap[i][j] > 0.06)
+            {
+                auto n1 = index.at(i);
+                auto n2 = index.at(j + i);
+                lines.push_back(n1 + " " + n2);
+            }
+        }
+    }
+
+    // util::debugOutput(index);
+
+    util::writeLinesToFile("./cora.f2e", lines);
+}
+
 int main()
 {
-    // initEdgeFeature();
-    calculateCosine();
+    genEdge();
     return 0;
 }
