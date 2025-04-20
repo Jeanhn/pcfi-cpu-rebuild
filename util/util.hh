@@ -7,6 +7,7 @@
 #include <vector>
 #include <math.h>
 #include <optional>
+#include <numeric>
 
 namespace util
 {
@@ -183,6 +184,34 @@ namespace util
             return 100;
         }
         return a / b;
+    }
+
+    inline float model(std::vector<int> v)
+    {
+        return std::accumulate(v.begin(), v.end(), 0);
+    }
+
+    inline int multiple(std::vector<int> v1, std::vector<int> v2)
+    {
+        if (v1.size() != v2.size())
+        {
+            throw std::runtime_error("not equal vector");
+        }
+        int sum = 0;
+        for (int i = 0; i < v1.size(); i++)
+        {
+            sum += v1[i] * v2[i];
+        }
+        return sum;
+    }
+
+    inline float cosine(std::vector<int> v1, std::vector<int> v2)
+    {
+        if (v1.size() != v2.size())
+        {
+            throw std::runtime_error("not equal vector");
+        }
+        return float(multiple(v1, v2)) / (model(v1) * model(v2));
     }
 }
 #endif
