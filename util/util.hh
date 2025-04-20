@@ -188,7 +188,7 @@ namespace util
 
     inline float model(std::vector<int> v)
     {
-        return std::accumulate(v.begin(), v.end(), 0);
+        return sqrt(std::accumulate(v.begin(), v.end(), 0));
     }
 
     inline int multiple(std::vector<int> v1, std::vector<int> v2)
