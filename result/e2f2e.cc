@@ -17,7 +17,7 @@ int main()
             int v = std::stoi(words[i]);
             if (v == 1)
             {
-                edges.push_back({idx, i});
+                edges.push_back({idx, i - 1});
             }
         }
     }
